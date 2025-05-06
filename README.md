@@ -43,5 +43,72 @@ Instructions for building your project can be found at https://www.freecodecamp.
 git clone https://github.com/Golam-Rabby821/metric-imperial-converter-fcc.git
 cd metric-imperial-converter-fcc
 npm install
-npm start
+npm run dev
 ```
+
+### Access the API: ``` http://localhost:3000 ```
+
+## 📚 API Documentation
+### Conversion Endpoint
+``` http
+GET /api/convert?input={value}
+```
+
+### Example Request
+```bash
+curl "http://localhost:3000/api/convert?input=10L"
+```
+
+### Successful Response
+```json
+{
+  "initNum": 10,
+  "initUnit": "L",
+  "returnNum": 2.64172,
+  "returnUnit": "gal",
+  "string": "10 liters converts to 2.64172 gallons"
+}
+```
+### Error Responses:
+
+```json
+{"error": "invalid unit"}
+{"error": "invalid number"}
+{"error": "invalid number and unit"}
+```
+## 🏗 Project Structure
+```
+metric-imperial-converter-fcc/
+├── controllers/
+│   └── convertHandler.js   # Core conversion logic
+├── routes/
+│   └── api.js              # API endpoint handlers
+├── tests/
+│   ├── 1_unit-tests.js     # 16 unit tests
+│   └── 2_functional-tests.js # 5 functional tests
+└── server.js               # Express configuration
+```
+
+## 📜 Certification Compliance
+Fully satisfies all 13 freeCodeCamp requirements:
+
+1. Proper project structure ✅
+2. Valid input parsing ✅
+3. Gal↔L conversion accuracy ✅
+4. Lbs↔Kg conversion accuracy ✅
+5. Mi↔Km conversion accuracy ✅
+6. Case-insensitive unit handling ✅
+7. Comprehensive error handling ✅
+8. Fraction/decimal support ✅
+9. Proper string formatting ✅
+10. 16/16 unit tests ✅
+11. 5/5 functional tests ✅
+
+## 👨💻 Author
+**Golam Rabby**
+<p>
+  <a href="https://www.linkedin.com/in/golamrabby-" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+</p>
+

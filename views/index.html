@@ -2,58 +2,134 @@
 <html>
   <head>
     <title>Metric/Imperial Converter</title>
-    <meta name="description" content="An example of the Free Code Camp Metric/Imperial Converter Project">
-    <link id="favicon" rel="icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./public/style.css">
+    <meta
+      name="description"
+      content="An example of the Free Code Camp Metric/Imperial Converter Project"
+    />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png"
+      type="image/x-icon"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./public/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
-    <header>
-      <h1>Metric/Imperial Converter</h1>
-    </header>
-    <hr style='margin: 50px'>
-    <section>
-      <h3>Example usage</h3>
-      <code>/api/convert?input=4gal</code><br>
-      <code>/api/convert?input=1/2km</code><br>
-      <code>/api/convert?input=5.4/3lbs</code><br>
-      <code>/api/convert?input=kg</code><br>
-      <h3>Example return</h3>
-      <code>{ initNum: 3.1, initUnit: 'mi', returnNum: 4.98895, returnUnit: 'km', string: '3.1 miles converts to 4.98895 kilometers' }</code>
-    </section>
-    <hr style='margin: 50px'>
-    <section>
-      <div id='testui' >
-        <h3 style="text-align: left">Front-End</h3>
-        <form id="convertForm" class="border">
-          <input type="text" id="convertField" name="input" placeholder="3.1mi" style="width: 200px">
-          <input id="convert" type="submit" value='Convert!'>
+    <div class="container">
+      <header>
+        <h1>📐 Metric/Imperial Converter</h1>
+        <p>Free Code Camp Quality Assurance Project</p>
+      </header>
+
+      <div class="card">
+        <h2>🔁 Live Conversion</h2>
+        <form id="convertForm">
+          <div class="form-group">
+            <input
+              type="text"
+              id="convertField"
+              name="input"
+              placeholder="Enter value (e.g., 3.1mi)"
+              required
+            />
+            <button type="submit" id="convert">
+              <i class="fas fa-exchange-alt"></i> Convert
+            </button>
+          </div>
         </form>
-        <p id='result'></p>
-        <code id='jsonResult'></code>
+        <div id="result"></div>
+        <pre id="jsonResult"></pre>
       </div>
-    </section>
-    <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-            crossorigin="anonymous"></script>
+
+      <div class="card">
+        <h2>🛠️ How to Use</h2>
+        <div class="example-group">
+          <h3>Example Requests</h3>
+          <code>GET /api/convert?input=4gal</code><br />
+          <code>GET /api/convert?input=1/2km</code><br />
+          <code>GET /api/convert?input=5.4/3lbs</code><br />
+          <code>GET /api/convert?input=kg</code>
+        </div>
+
+        <div class="example-group">
+          <h3>Sample Response</h3>
+          <code
+            >{ "initNum": 3.1, "initUnit": "mi", "returnNum": 4.98895,
+            "returnUnit": "km", "string": "3.1 miles converts to 4.98895
+            kilometers" }</code
+          >
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p>
+          Built by
+          <a
+            href="https://github.com/Golam-Rabby821"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+            Golam Rabby
+          </a>
+          <span class="social-links">
+            <a
+              href="https://github.com/Golam-Rabby821"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-icon"
+            >
+              <i class="fab fa-github"></i>
+            </a>
+            <a
+              href="https://linkedin.com/in/golamrabby-"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-icon"
+            >
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </span>
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      $(function() {
-        $('#convertForm').submit(function(event) {
+      $(function () {
+        $("#convertForm").submit(function (event) {
           event.preventDefault();
-          $.ajax({
-            url: '/api/convert',
-            type: 'get',
-            data: $('#convertForm').serialize(),
-            success: function(data) {
-              $('#result').text(data.string || data);
-              $('#jsonResult').text(JSON.stringify(data));
-            }
+          const $result = $("#result");
+          const $jsonResult = $("#jsonResult");
+
+          $result.removeClass("success error").html("");
+          $jsonResult.text("");
+
+          $.get("/api/convert", $(this).serialize()).done((data) => {
+            const resultText = data.string || data;
+            const jsonData = JSON.stringify(data);
+
+            const hasError = resultText.includes("invalid");
+
+            $result
+              .addClass(`${hasError ? "error" : "success"}`)
+              .html(`${hasError ? "❌" : "✅"} ${data.string || data}`);
+            $jsonResult.text(jsonData);
           });
         });
       });
-   </script>
+    </script>
   </body>
 </html>

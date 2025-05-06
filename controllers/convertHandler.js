@@ -1,5 +1,4 @@
 function ConvertHandler() {
-
   // Mapping units to their corresponding return units
   const unitMap = {
     gal: { returnUnit: "L", spellOut: "gallons" },
@@ -68,7 +67,7 @@ function ConvertHandler() {
 
     const validUnits = Object.keys(unitMap);
     if (!validUnits.includes(result)) {
-      return { error: 'invalid unit' };
+      return { error: "invalid unit" };
     }
 
     return result;
@@ -106,8 +105,9 @@ function ConvertHandler() {
         break;
     }
 
-    return result;
+    return Number(result.toFixed(5));
   };
+
   this.getString = function (initNum, initUnit, returnNum, returnUnit) {
     let result = `${initNum} ${this.spellOutUnit(
       initUnit
